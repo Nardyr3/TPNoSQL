@@ -3,45 +3,51 @@
 (function () {
   'use strict'
 
-  feather.replace()
-
   // Graphs
   var ctx = document.getElementById('myChart')
-  // eslint-disable-next-line no-unused-vars
+
+  var graphData = document.querySelector('.graph-data');
+  var dataGraphString = graphData.dataset.graph;
+
+  console.log(dataGraphString);
+
+  var dataGraph = dataGraphString.replace('[','').replace(']','').split(',').map(Number);
+
+  var data = dataGraph;
+
+
+  // var dataGraph = $('.graph-data').data('graph');
+
+  console.log(dataGraph)
+
+  var labelGraph = document.querySelector('.graph-data').dataset.label.replace('[','').replace(']','').replace('\"','').split(',');
+
+  console.log(labelGraph)
+
   var myChart = new Chart(ctx, {
-    type: 'line',
+    type: 'bar',
     data: {
-      labels: [
-        'Sunday',
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday'
-      ],
+      labels: labelGraph,
       datasets: [{
-        data: [
-          15339,
-          21345,
-          18483,
-          24003,
-          23489,
-          24092,
-          12034
-        ],
-        lineTension: 0,
-        backgroundColor: 'transparent',
+        // data: [
+        //   15339,
+        //   21345,
+        //   18483,
+        //   24003,
+        //   23489,
+        //   24092,
+        //   12034
+        // ],
+        data: dataGraph,
         borderColor: '#007bff',
         borderWidth: 4,
-        pointBackgroundColor: '#007bff'
       }]
     },
     options: {
       scales: {
         yAxes: [{
           ticks: {
-            beginAtZero: false
+            beginAtZero: true
           }
         }]
       },
@@ -51,3 +57,5 @@
     }
   })
 })()
+
+

@@ -18,7 +18,7 @@
       }
     }
   </style>
-  <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet">
+  
 {% endblock %}
 
 
@@ -31,18 +31,24 @@
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Dashboard</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
-          <div class="btn-group me-2">
-            <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+          <div class="dropdown show">
+            <a class="btn btn-sm btn-outline-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Dropdown link
+            </a>
+
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              <a class="dropdown-item" href="#">Action</a>
+              <a class="dropdown-item" href="#">Another action</a>
+              <a class="dropdown-item" href="#">Something else here</a>
+            </div>
           </div>
-          <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-            <span data-feather="calendar"></span>
-            This week
-          </button>
         </div>
       </div>
 
-      <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
+
+      <div class="graph-data" data-graph="{{ data|json_encode|e('html_attr') }}" data-label="{{ label|json_encode|e('html_attr') }}">
+
+      <canvas class="my-4 w-100" id="myChart" width="800" height="380"></canvas>
       
 
       <h2>Historique des requêtes</h2>
