@@ -33,11 +33,10 @@ class HomeController extends AbstractController
         'Friday',
         'Saturday'
     ];
-        return $this->render('home/home.html.twig', [
+        return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
             'data' => $data,
             'label' => $label
         ]);
     }
-
 }
