@@ -1,3 +1,0 @@
-# index:
-#     path: /request
-#     controller: App\Controller\RequestController::index
