@@ -12,17 +12,14 @@
                     <table class="table text-center">
                         <thead class="text-uppercase bg-secondary">
                             <tr class="text-white">
-                                <th scope="col">{{ users|length }}</th>
-                                <th scope="col">Prénom</th>
-                                <th scope="col">Nom</th>
-                                <th scope="col">Achats</th>
+                                <th scope="col">Requête</th>
+                                <th scope="col">Descriptif</th>
+                                <th scope="col">Lancer</th>
                             </tr>
                         </thead>
                         <tbody>
-
-                        {% for user in users %}
                             <tr>
-                                <th scope="row">{{ user.id }}</th>
+                                <th scope="row">Requête 1</th>
                                 <td>{{ user.first_name }}</td>
                                 <td>{{ user.last_name }}</td>
                                 <td>
@@ -57,9 +54,7 @@
                                     </div>
                                 </td>
                                 
-                            </tr>
-                        {% endfor %}
-                        
+                            </tr>                      
                         </tbody>
                     </table>
                 </div>

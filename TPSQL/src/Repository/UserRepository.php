@@ -59,13 +59,5 @@ class UserRepository extends ServiceEntityRepository
         return $stmt->fetchAll();
     }
 
-    public function findByPurchase(String $id)
-    {
-        $conn = $this->getEntityManager()
-            ->getConnection();
-        $sql = 'SELECT p.id, p.name FROM Product p JOIN Purchase pu ON pu.id_product = p.id JOIN User u ON pu.id_person = u.id WHERE u.id =\''. $id.'\';';
-        $stmt = $conn->prepare($sql);
-        $stmt->execute();
-        return $stmt->fetchAll();
-    }
+    
 }

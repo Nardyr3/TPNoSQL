@@ -13,22 +13,22 @@
               Tableau de bord
             </a>
           </li>
-          <li class="nav-item">
+          {# <li class="nav-item">
             <a {% if route_name == "orders" %} class="nav-link active" {% else %} class="nav-link" {% endif %} href="/orders">
               <span data-feather="file"></span>
               Achat
             </a>
-          </li>
-          <li class="nav-item">
-            <a {% if route_name == "product" %} class="nav-link active" {% else %} class="nav-link" {% endif %} href="/product">
-              <span data-feather="shopping-cart"></span>
-              Produits
-            </a>
-          </li>
+          </li> #}
           <li class="nav-item">
             <a {% if route_name == "users" %} class="nav-link active" {% else %} class="nav-link" {% endif %} href="/users">
               <span data-feather="users"></span>
               Utilisateurs
+            </a>
+          </li>
+          <li class="nav-item">
+            <a {% if route_name == "product" %} class="nav-link active" {% else %} class="nav-link" {% endif %} href="/products">
+              <span data-feather="shopping-cart"></span>
+              Produits
             </a>
           </li>
           <li class="nav-item">
@@ -37,12 +37,12 @@
               Requêtes
             </a>
           </li>
-          <li class="nav-item">
+          {# <li class="nav-item">
             <a {% if route_name == "database" %} class="nav-link active" {% else %} class="nav-link" {% endif %} href="/database">
               <span data-feather="layers"></span>
               Base de données
             </a>
-          </li>
+          </li> #}
         </ul>
       </div>
     </nav>

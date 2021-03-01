@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\User;
+use Laudis\Neo4j\ClientBuilder;
 
 use Faker;
 use PDO;
@@ -16,6 +17,14 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $faker = Faker\Factory::create('fr_FR');
+
+        $client = ClientBuilder::create()
+        ->addBoltConnection('default', sprintf('bolt://%s:%s@127.0.0.1:7687', 'neo4j', 'root'))
+        ->build();
+
+        $client->run(
+            'CREATE (u1:Person {id: \'u1\'}),(u2:Person {id: \'u2\'})'
+        );
 
         // Get the database connection
         $conn = $manager->getConnection();

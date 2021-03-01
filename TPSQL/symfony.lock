@@ -123,6 +123,18 @@
     "guzzlehttp/psr7": {
         "version": "1.7.0"
     },
+    "kriswallsmith/buzz": {
+        "version": "1.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "1da7c9584a9face8cc2a9ee42a04ae33c284bea8"
+        },
+        "files": [
+            "./config/packages/buzz.yaml"
+        ]
+    },
     "laminas/laminas-code": {
         "version": "4.0.0"
     },
@@ -131,6 +143,12 @@
     },
     "laminas/laminas-zendframework-bridge": {
         "version": "1.2.0"
+    },
+    "laudis/neo4j-php-client": {
+        "version": "1.3.0"
+    },
+    "laudis/typed-enum": {
+        "version": "v1.1.1"
     },
     "monolog/monolog": {
         "version": "1.26.0"
@@ -152,6 +170,24 @@
     },
     "nikic/php-parser": {
         "version": "v4.10.4"
+    },
+    "nyholm/psr7": {
+        "version": "1.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "7c0a9352a57376f04f5444e74565102c3a23d0c7"
+        },
+        "files": [
+            "./config/packages/nyholm_psr7.yaml"
+        ]
+    },
+    "nyholm/psr7-server": {
+        "version": "1.0.1"
+    },
+    "php-ds/php-ds": {
+        "version": "v1.3.0"
     },
     "php-http/client-common": {
         "version": "1.10.0"
@@ -189,6 +225,12 @@
     "psr/container": {
         "version": "1.0.0"
     },
+    "psr/http-client": {
+        "version": "1.0.1"
+    },
+    "psr/http-factory": {
+        "version": "1.0.1"
+    },
     "psr/http-message": {
         "version": "1.0.1"
     },
@@ -212,6 +254,9 @@
         "files": [
             "./config/packages/sensio_framework_extra.yaml"
         ]
+    },
+    "stefanak-michal/bolt": {
+        "version": "v2.1"
     },
     "symfony/asset": {
         "version": "v4.4.19"
