@@ -1,37 +1,88 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello DatabaseController!{% endblock %}
+{% block title %}Base de données{% endblock %}
 
 {% block body %}
-<div class="col-lg-6 mt-5">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="header-title">Liste des utilisateurs</h4>
-                                <div class="single-table">
-                                    <div class="table-responsive">
-                                        <table class="table text-center">
-                                            <thead class="text-uppercase bg-secondary">
-                                                <tr class="text-white">
-                                                    <th scope="col">{{ users|length }}</th>
-                                                    <th scope="col">Prénom</th>
-                                                    <th scope="col">Nom</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
+<div class="col-lg-12 mt-5">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="header-title">Liste des bases de données</h4>
+            <div class="single-table">
+                <div class="table-responsive">
+                    <table class="table text-center">
+                        <thead class="text-uppercase bg-secondary">
+                            <tr class="text-white">
+                                <th scope="col">Base de données</th>
+                                <th scope="col">Vider</th>
+                                <th scope="col">Lancer</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">MySQL</th>
+                                <td>
+                                    <a class="btn btn-sm btn-outline-secondary" href="/database/drop">
+                                        <span class="me-1" data-feather="play"></span> 
+                                        Vider
+                                    </a>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#database" data-request="1">
+                                        <span class="me-1" data-feather="play"></span> 
+                                        Lancer
+                                    </button>
+                                </td>
+                            </tr>                      
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-                                            {% for user in users %}
-                                                <tr>
-                                                    <th scope="row">{{ user.id }}</th>
-                                                    <td>{{ user.first_name }}</td>
-                                                    <td>{{ user.last_name }}</td>
-                                                </tr>
-                                            {% endfor %}
-                                            
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<div class="modal fade" id="database" tabindex="-1" role="dialog" aria-labelledby="databaseLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form action="{{ path('database_form') }}" method="post">
+        <div class="modal-header">
+            <h5 class="modal-title" id="requestLongTitle">Base de données</h5>
+            <button type="button" class="btn btn-sm btn-outline-secondary close" data-dismiss="modal" aria-label="Close">
+                <span data-feather="x"></span>
+            </button>
+        </div>
+        <div class="modal-body">
+        <input type="hidden" class="form-control" id="id" name="id">
+            <div class="form-floating mb-3">
+                <input type="number" class="form-control bfh-number" id="nb_user" name="nb_user" min="1" value="1000000">
+                <label for="nb_user">Nombre d'utilisateur</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="number" class="form-control bfh-number" id="nb_product" name="nb_product" min="1" value="10000">
+                <label for="nb_product">Nombre de produit</label>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+      </form> 
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+<script type="text/javascript"> 
+
+$('#database').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) 
+  var id = button.data('database')
+  var modal = $(this)
+  modal.find('#id').val(id)
+})
+</script> 
 {% endblock %}

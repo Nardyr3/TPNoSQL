@@ -4,14 +4,14 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
-use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 
 /**
- * @Route("/users", name="users")
+ * @Route("/users")
  */
 class UserController extends AbstractController
 {
@@ -20,11 +20,12 @@ class UserController extends AbstractController
      */
     public function index(UserRepository $userRepository): Response
     {
+
         $users = $userRepository->getAllUsers();
         return $this->render('user/index.html.twig', [
             'controller_name' => 'UserController',
             'users' => $users,
-        ]);
+        ]);  
     }
 
     /**
@@ -36,6 +37,25 @@ class UserController extends AbstractController
         return $this->render('user/list_product.html.twig', [
             'controller_name' => 'UserController',
             'products' => $products,
+        ]);
+    }
+
+    /**
+     * @Route("/form", name="showForm", methods={"POST"})
+     */
+    public function showForm(Request $request): Response
+    {
+        $email = $request->request->get('user_email');
+        //print($request->request);
+        
+        //print($email);
+        $password = $request->request->get('user_password');
+        print('Print password :');
+        print($password);
+        return $this->render('user/trash.html.twig', [
+            'controller_name' => 'UserController',
+            'email' => $email,
+            'password' => $password,
         ]);
     }
 }

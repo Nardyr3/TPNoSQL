@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -31,6 +33,22 @@ class User
      * @ORM\ManyToOne(targetEntity=Purchase::class, inversedBy="idUser")
      */
     private $purchase;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Friend::class, mappedBy="idPerson")
+     */
+    private $friends;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Friend::class, mappedBy="idFollower")
+     */
+    private $following;
+
+    public function __construct()
+    {
+        $this->friends = new ArrayCollection();
+        $this->following = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -69,6 +87,66 @@ class User
     public function setPurchase(?Purchase $purchase): self
     {
         $this->purchase = $purchase;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Friend[]
+     */
+    public function getFriends(): Collection
+    {
+        return $this->friends;
+    }
+
+    public function addFriend(Friend $friend): self
+    {
+        if (!$this->friends->contains($friend)) {
+            $this->friends[] = $friend;
+            $friend->setIdPerson($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFriend(Friend $friend): self
+    {
+        if ($this->friends->removeElement($friend)) {
+            // set the owning side to null (unless already changed)
+            if ($friend->getIdPerson() === $this) {
+                $friend->setIdPerson(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Friend[]
+     */
+    public function getFollowing(): Collection
+    {
+        return $this->following;
+    }
+
+    public function addFollowing(Friend $following): self
+    {
+        if (!$this->following->contains($following)) {
+            $this->following[] = $following;
+            $following->setIdFollower($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFollowing(Friend $following): self
+    {
+        if ($this->following->removeElement($following)) {
+            // set the owning side to null (unless already changed)
+            if ($following->getIdFollower() === $this) {
+                $following->setIdFollower(null);
+            }
+        }
 
         return $this;
     }

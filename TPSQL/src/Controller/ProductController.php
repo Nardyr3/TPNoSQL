@@ -14,7 +14,7 @@ class ProductController extends AbstractController
 {
 
 /**
-     * @Route("/", name="product")
+     * @Route("/")
      */
     public function index(ProductRepository $productRepository): Response
     {

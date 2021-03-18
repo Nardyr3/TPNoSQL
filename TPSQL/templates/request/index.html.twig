@@ -6,7 +6,7 @@
 <div class="col-lg-12 mt-5">
     <div class="card">
         <div class="card-body">
-            <h4 class="header-title">Liste des utilisateurs</h4>
+            <h4 class="header-title">Liste des requêtes</h4>
             <div class="single-table">
                 <div class="table-responsive">
                     <table class="table text-center">
@@ -20,40 +20,23 @@
                         <tbody>
                             <tr>
                                 <th scope="row">Requête 1</th>
-                                <td>{{ user.first_name }}</td>
-                                <td>{{ user.last_name }}</td>
+                                <td>Récupère la liste et le nombre de produits achetés par les followers d'un utilisateur</td>
                                 <td>
-                                    <a class="btn btn-sm btn-outline-secondary" href="/products/{{ user.id }}">
-                                        <span class="me-1" data-feather="shopping-cart"></span>
-                                        Voir
-                                    </a>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#exampleModalLong">
-                                        <span class="me-1" data-feather="play"></span>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#request" data-request="1">
+                                        <span class="me-1" data-feather="play"></span> 
                                         Lancer
                                     </button>
-                                    <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                ...
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                <button type="button" class="btn btn-primary">Save changes</button>
-                                            </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </td>
-                                
+                            </tr>
+                            <tr>
+                                <th scope="row">Requête 2</th>
+                                <td>Récupère le nombre, pour un produit donné, d'achat par les followers d'un utilisateur</td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#request" data-request="2">
+                                        <span class="me-1" data-feather="play"></span> 
+                                        Lancer
+                                    </button>
+                                </td>
                             </tr>                      
                         </tbody>
                     </table>
@@ -63,6 +46,56 @@
     </div>
 </div>
 
+<div class="modal fade" id="request" tabindex="-1" role="dialog" aria-labelledby="requestLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form action="{{ path('request_form') }}" method="post">
+        <div class="modal-header">
+            <h5 class="modal-title" id="requestLongTitle">Requête</h5>
+            <button type="button" class="btn btn-sm btn-outline-secondary close" data-dismiss="modal" aria-label="Close">
+                <span data-feather="x"></span>
+            </button>
+        </div>
+        <div class="modal-body">
+        <input type="hidden" class="form-control" id="id" name="id">
+            <div class="form-floating mb-3">
+                <input type="number" class="form-control bfh-number" id="user_id" name="user_id" min="1" value="1">
+                <label for="user_id">Id de l'utilisateur</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="number" class="form-control bfh-number" id="product_id" name="product_id" min="1" value="1">
+                <label for="product_id">Id du produit</label>
+            </div>
+            <div class="form-floating">
+                <input type="number" class="form-control" id="level" name="level" min="1" max="10" value="1">
+                <label for="level">Niveau de profondeur</label>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+      </form> 
+    </div>
+  </div>
+</div>
+
+
 
 {% endblock %}
 
+{% block javascripts %}
+<script type="text/javascript"> 
+
+$('#request').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) 
+  var id = button.data('request')
+  var modal = $(this)
+  if (id == 1){
+      document.getElementById("product_id").hidden = true;
+  }
+  modal.find('.modal-title').text('Requête ' + id)
+  modal.find('#id').val(id)
+})
+</script> 
+{% endblock %}
