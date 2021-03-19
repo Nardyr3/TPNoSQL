@@ -24,9 +24,10 @@ class NoSQLRepository
 
         // Add some user
         for ($i = 0; $i < $nb_user; $i++) {
+            $id = $i+1;
             $client->run(
                 'CREATE (u:Person {id: $id, first_name: $fn, last_name: $ln})',
-                ['id' => $i, 'fn' => $faker->firstName, 'ln' => $faker->lastName],
+                ['id' => $id, 'fn' => $faker->firstName, 'ln' => $faker->lastName],
             );
         }
 
@@ -38,9 +39,10 @@ class NoSQLRepository
         $faker = Faker\Factory::create('fr_FR');
 
         for ($i = 0; $i < $nb_product; $i++) {
+            $id = $i +1;
             $client->run(
                 'CREATE (u:Product {id: $id, name: $n})',
-                ['id' => $i, 'n' => $faker->company]
+                ['id' => $id, 'n' => $faker->company]
             );
         }
 
@@ -53,17 +55,18 @@ class NoSQLRepository
         $faker = Faker\Factory::create('fr_FR');
 
         for ($i = 0; $i < $nb_user; $i++) {
-            $nb_purchases = rand(0, $nb_purchases_max);
+            $id = $i +1;
+            $nb_purchases = $faker->numberBetween(1, $nb_purchases_max);
             if ($nb_purchases != 0) {
                 $purchases = array();
                 for ($f = 0; $f < $nb_purchases; $f++) {
-                    $new_purchase = rand(0, $nb_product-1);
-                    if($new_purchase != $i && !in_array($new_purchase, $purchases)) {
+                    $new_purchase = $faker->numberBetween(1, $nb_product);
+                    if($new_purchase != $id && !in_array($new_purchase, $purchases)) {
                         $purchases[] = $new_purchase;
                         $client->run(
                             'MATCH (a:Person {id: $id_a}), (b:Product {id: $id_b})
                             CREATE (a)-[:Purchase]->(b)',
-                            ['id_a' => $i, 'id_b' => $new_purchase]
+                            ['id_a' => $id, 'id_b' => $new_purchase]
                         );
                     }
                 }
@@ -74,22 +77,23 @@ class NoSQLRepository
 
     public function createFriend(ClientInterface $client, String $nb_user)
     {
-        $nb_followers_max = 20;
+        $nb_followers_max = 5;
 
         $faker = Faker\Factory::create('fr_FR');
 
         for ($i = 0; $i < $nb_user; $i++) {
-            $nb_followers = rand(0, $nb_followers_max);
+            $id = $i +1;
+            $nb_followers = $faker->numberBetween(1, $nb_followers_max);
             if ($nb_followers != 0) {
                 $followers = array();
                 for ($f = 0; $f < $nb_followers; $f++) {
-                    $new_follower = rand(0, $nb_user-1);
-                    if($new_follower != $i && !in_array($new_follower, $followers)) {
+                    $new_follower = $faker->numberBetween(1, $nb_followers_max);
+                    if($new_follower != $id && !in_array($new_follower, $followers)) {
                         $followers[] = $new_follower;
                         $client->run(
                             'MATCH (a:Person {id: $id_a}), (b:Person {id: $id_b})
                             CREATE (b)-[:Follow]->(a)',
-                            ['id_a' => $i, 'id_b' => $new_follower]
+                            ['id_a' => $id, 'id_b' => $new_follower]
                         );
                     }
                 }
@@ -122,7 +126,7 @@ class NoSQLRepository
     public function getBuyersByProduct(ClientInterface $client, String $product_id, String $level){
 
         return $client->run(
-            'MATCH (n:Person)-[:Follow *'.$level.']->(:Person)-[:Purchase]->(p:Product {id: '.$product_id.'}) RETURN p.name AS name, COUNT(n) AS nb'
+            'MATCH (p:Product {id: '.$product_id.'})<-[:Purchase]-(n:Person)-[:Follow *'.$level.']->(:Person)-[:Purchase]->(p:Product {id: '.$product_id.'}) RETURN p.name AS name, COUNT(DISTINCT n) AS nb '
         );
     }
 
