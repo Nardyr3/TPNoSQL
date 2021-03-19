@@ -53,13 +53,20 @@ class DatabaseController extends AbstractController
     {
 
         $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->getConnection()->getConfiguration()->setSQLLogger(null);
         $nb_user = $request->request->get('nb_user');
         $nb_product = $request->request->get('nb_product');
         
 
         $start = microtime(true);
         set_time_limit(600000);
-        $sqlRepository->createDatabase($entityManager,$nb_user,$nb_product);
+        $sqlRepository->createUser($entityManager,$nb_user,$nb_product);
+        set_time_limit(600000);
+        $sqlRepository->createProduct($entityManager,$nb_user,$nb_product);
+        set_time_limit(600000);
+        $sqlRepository->createPurchase($entityManager,$nb_user,$nb_product);
+        set_time_limit(600000);
+        $sqlRepository->createFriend($entityManager,$nb_user,$nb_product);
         $end = microtime(true);
 
         $execTime = ($end - $start);
