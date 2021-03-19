@@ -22,9 +22,11 @@ class UserController extends AbstractController
     {
 
         $users = $userRepository->getAllUsers();
+        $counter = $userRepository->getCount();
         return $this->render('user/index.html.twig', [
             'controller_name' => 'UserController',
             'users' => $users,
+            'counter' => $counter,
         ]);  
     }
 

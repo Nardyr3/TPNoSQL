@@ -53,11 +53,20 @@ class UserRepository extends ServiceEntityRepository
     {
         $conn = $this->getEntityManager()
             ->getConnection();
-        $sql = 'SELECT * FROM user';
+        $sql = 'SELECT * FROM user LIMIT 1000';
         $stmt = $conn->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll();
     }
 
+    public function getCount() 
+    {
+        $conn = $this->getEntityManager()
+            ->getConnection();
+        $sql = 'SELECT COUNT(*) as nombre FROM user';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
     
 }

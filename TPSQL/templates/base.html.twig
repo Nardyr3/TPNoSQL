@@ -9,6 +9,23 @@
         <!-- Bootstrap core CSS -->
         <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
         <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet">
+        <style>
+            .numberCircle {
+            border-radius: 10%;
+            behavior: url(PIE.htc);
+            /* remove if you don't care about IE8 */
+            width: 36px;
+            height: 36px;
+            display: table;
+            padding: 10px;
+            margin-top: 15px;
+            background: #fff;
+            border: 2px solid #666;
+            color: #666;
+            text-align: center;
+            font: 28px Arial, sans-serif;
+            }
+        </style>
         {% block stylesheets %}
         {% endblock %}
 

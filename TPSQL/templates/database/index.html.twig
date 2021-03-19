@@ -21,20 +21,68 @@
                             <tr>
                                 <th scope="row">MySQL</th>
                                 <td>
-                                    <a class="btn btn-sm btn-outline-secondary" href="/database/drop">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#delete" data-database="1">
                                         <span class="me-1" data-feather="play"></span> 
                                         Vider
-                                    </a>
+                                    </button>
                                 </td>
                                 <td>
-                                    <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#database" data-request="1">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#database" data-database="1">
                                         <span class="me-1" data-feather="play"></span> 
                                         Lancer
                                     </button>
                                 </td>
-                            </tr>                      
+                            </tr> 
+                            <tr>
+                                <th scope="row">NOSQL</th>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#delete" data-database="2">
+                                        <span class="me-1" data-feather="play"></span> 
+                                        Vider
+                                    </button>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#database" data-database="2">
+                                        <span class="me-1" data-feather="play"></span> 
+                                        Lancer
+                                    </button>
+                                </td>
+                            </tr>                     
                         </tbody>
                     </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title">Base de données MySQL</h4>
+                    {% for count in counterSQL %}
+                        <div class="card w-75">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ count.nom }}</h5>
+                                <p class="card-text">{{ count.nombre }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title">Base de données NoSQL</h4>
+                    {% for count in counterNoSQL %}
+                        <div class="card w-75">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ count.nom }}</h5>
+                                <p class="card-text">{{ count.nombre }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -72,6 +120,28 @@
 </div>
 
 
+<div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form action="{{ path('drop_form') }}" method="post">
+        <div class="modal-header">
+            <h5 class="modal-title" id="deleteLongTitle">Valider la suppression des données ?</h5>
+            <button type="button" class="btn btn-sm btn-outline-secondary close" data-dismiss="modal" aria-label="Close">
+                <span data-feather="x"></span>
+            </button>
+        </div>
+        <div class="modal-body">
+        <input type="hidden" class="form-control" id="id" name="id">
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+            <button type="submit" class="btn btn-success">Valider</button>
+        </div>
+      </form> 
+    </div>
+  </div>
+</div>
+
+
 
 {% endblock %}
 
@@ -79,6 +149,13 @@
 <script type="text/javascript"> 
 
 $('#database').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) 
+  var id = button.data('database')
+  var modal = $(this)
+  modal.find('#id').val(id)
+})
+
+$('#delete').on('show.bs.modal', function (event) {
   var button = $(event.relatedTarget) 
   var id = button.data('database')
   var modal = $(this)

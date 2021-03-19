@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Faker;
 
@@ -185,11 +186,42 @@ class SQLRepository
     public function getPurchaseByProduct(EntityManagerInterface $entityManager, String $user_id, String $product_id, String $level)
     {
         $conn = $entityManager->getConnection();
-        $sql = 'WITH RECURSIVE cte AS ( SELECT *, 1 level FROM friend WHERE id_person = ' . $user_id .
-        ' UNION ALL SELECT f.*, level + 1 FROM cte c INNER JOIN friend f ON f.id_person = c.id_follower WHERE f.id_follower <> ' . $user_id .
-        ' AND level < '.$level.' ) SELECT p.name AS name, COUNT(p.name) AS nb FROM product p JOIN purchase pu ON pu.id_product = p.id '.
-        'WHERE pu.id = '.$product_id.' AND pu.id_person IN (SELECT DISTINCT id_follower FROM cte) AND pu.id_product IN ( SELECT DISTINCT id_product FROM purchase pu WHERE pu.id_person = ' . $user_id .
-        ')GROUP BY name ORDER BY COUNT(nb) DESC;';
+
+        $sql = 'WITH recursive cte AS
+        (
+               SELECT *,
+                      1 level
+               FROM   friend
+               WHERE  id_person = '.$user_id.'
+               UNION ALL
+               SELECT     f.*,
+                          level + 1
+               FROM       cte c
+               INNER JOIN friend f
+               ON         f.id_person = c.id_follower
+               WHERE      f.id_follower <> '.$user_id.'
+               AND        level < '.$level.')
+        SELECT   p.NAME        AS name,
+                 count(p.NAME) AS nb
+        FROM     product p
+        JOIN     purchase pu
+        ON       pu.id_product = p.id
+        WHERE    pu.id_person IN
+                                  (
+                                  SELECT DISTINCT id_follower
+                                  FROM            cte)
+        AND      p.id = '.$product_id.'
+        GROUP BY NAME
+        ORDER BY nb DESC;';
+
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+    public function getCount(EntityManagerInterface $entityManager){
+        $conn = $entityManager->getConnection();
+        $sql = 'SELECT \'Utilisateur\' AS nom, COUNT(*) AS nombre FROM user UNION SELECT \'Produits\', COUNT(*) FROM product UNION SELECT \'Achat\', COUNT(*) FROM purchase UNION SELECT \'Amis\', COUNT(*) FROM friend';
 
         $stmt = $conn->prepare($sql);
         $stmt->execute();

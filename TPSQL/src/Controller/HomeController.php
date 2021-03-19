@@ -18,29 +18,31 @@ class HomeController extends AbstractController
     public function index(): Response
     {
 
-    $data = [
-              15339,
-              21345,
-              18483,
-              24003,
-              23489,
-              24092,
-              26312
-    ];
+    // $data = [
+    //           15339,
+    //           21345,
+    //           18483,
+    //           24003,
+    //           23489,
+    //           24092,
+    //           26312
+    // ];
 
-    $label = [
-        'Sunday',
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday'
-    ];
-        return $this->render('home/index.html.twig', [
-            'controller_name' => 'HomeController',
-            'data' => $data,
-            'label' => $label
-        ]);
+    // $label = [
+    //     'Sunday',
+    //     'Monday',
+    //     'Tuesday',
+    //     'Wednesday',
+    //     'Thursday',
+    //     'Friday',
+    //     'Saturday'
+    // ];
+    //     return $this->render('home/index.html.twig', [
+    //         'controller_name' => 'HomeController',
+    //         'data' => $data,
+    //         'label' => $label
+    //     ]);
+    // }
+    return $this->redirectToRoute('database');
     }
 }

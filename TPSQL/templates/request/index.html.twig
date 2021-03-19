@@ -37,7 +37,17 @@
                                         Lancer
                                     </button>
                                 </td>
-                            </tr>                      
+                            </tr> 
+                            <tr>
+                                <th scope="row">Requête 3</th>
+                                <td>Récupère le nombre d'acheteurs d'un produit, dans le cercle de followers de niveau N</td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#request" data-request="3">
+                                        <span class="me-1" data-feather="play"></span> 
+                                        Lancer
+                                    </button>
+                                </td>
+                            </tr>                     
                         </tbody>
                     </table>
                 </div>
@@ -57,7 +67,15 @@
             </button>
         </div>
         <div class="modal-body">
-        <input type="hidden" class="form-control" id="id" name="id">
+            <input type="hidden" class="form-control" id="id" name="id">
+            <div class="form-floating mb-3">
+                <select id="database_id" name="database_id" class="form-control">
+                    <option value="1" selected>MySQL</option>
+                    <option value="2">NoSQL</option>
+                </select>
+                <label for="database_id">Base de données</label>
+            </div>
+
             <div class="form-floating mb-3">
                 <input type="number" class="form-control bfh-number" id="user_id" name="user_id" min="1" value="1">
                 <label for="user_id">Id de l'utilisateur</label>
@@ -91,9 +109,21 @@ $('#request').on('show.bs.modal', function (event) {
   var button = $(event.relatedTarget) 
   var id = button.data('request')
   var modal = $(this)
+  
   if (id == 1){
       document.getElementById("product_id").hidden = true;
   }
+  else {
+      document.getElementById("product_id").hidden = false;
+  }
+
+  if (id == 3){
+      document.getElementById("user_id").hidden = true;
+  }
+  else {
+      document.getElementById("user_id").hidden = false;
+  }
+
   modal.find('.modal-title').text('Requête ' + id)
   modal.find('#id').val(id)
 })

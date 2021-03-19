@@ -52,7 +52,7 @@ class ProductRepository extends ServiceEntityRepository
     {
         $conn = $this->getEntityManager()
             ->getConnection();
-        $sql = 'SELECT * FROM Product';
+        $sql = 'SELECT * FROM Product LIMIT 1000';
         $stmt = $conn->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll();
